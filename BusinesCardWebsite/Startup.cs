@@ -61,8 +61,19 @@ namespace BusinesCardWebsite
                 options.SlidingExpiration = true;
             });
 
-            services.AddControllersWithViews()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
+            //Настройка для авторизации админа area
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); });
+            });
+
+            //Добавденеи контроллеров и вью для mvc
+            services.AddControllersWithViews(options =>
+            {
+                options.Conventions.Add(new AdminAreaAitorization("Admin", "AdminArea"));
+            })
+            //Делаем слвместимость с asp.net core 3.0
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -81,6 +92,7 @@ namespace BusinesCardWebsite
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("admin", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
