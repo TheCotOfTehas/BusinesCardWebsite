@@ -5,12 +5,12 @@ namespace BusinesCardWebsite.Domain.Enteties
 {
     public class ServiceItem : EntityBase
     {
-        [Required(ErrorMessage = "Заполните название услуги")]
-        [Display(Name = "Название услуги")]
+        [Required(ErrorMessage = "Заполните название заметки")]
+        [Display(Name = "Название заметки")]
         public override string Title { get; set; }
-        [Display(Name = "Краткое описание услуги")]
+        [Display(Name = "Краткое описание заметки")]
         public override string Subtitle { get; set; }
-        [Display(Name = "Полное описание услуги")]
+        [Display(Name = "Полное содержание заметки")]
         public override string Text { get; set; }
     }
 }
